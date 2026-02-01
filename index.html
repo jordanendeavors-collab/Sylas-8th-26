@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sylas 8th Birthday Party</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Fredoka:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --red: #E3000B;
+            --yellow: #FFD500;
+            --blue: #006DB7;
+            --green: #00AF4D;
+            --orange: #FF6D00;
+            --purple: #8B008B;
+            --dark: #1a1a2e;
+        }
+        
+        body {
+            font-family: 'Fredoka', sans-serif;
+            background: linear-gradient(180deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            color: white;
+        }
+        
+        /* LOGIN */
+        #login {
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.8s, visibility 0.8s;
+        }
+        
+        #login.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+        
+        .login-box {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border: 4px solid var(--yellow);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .login-box h1 {
+            font-family: 'Bangers', cursive;
+            font-size: 2.5rem;
+            color: var(--yellow);
+            text-shadow: 3px 3px 0 var(--red);
+            margin-bottom: 10px;
+        }
+        
+        .login-box .emoji {
+            font-size: 80px;
+            display: block;
+            margin-bottom: 20px;
+            animation: bounce 1s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+        
+        .login-box input {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border: 3px solid var(--blue);
+            border-radius: 10px;
+            background: rgba(0,0,0,0.5);
+            color: white;
+            font-size: 1.1rem;
+            font-family: 'Fredoka', sans-serif;
+        }
+        
+        .login-box input:focus {
+            outline: none;
+            border-color: var(--green);
+            box-shadow: 0 0 20px rgba(0,175,77,0.5);
+        }
+        
+        .login-box button {
+            width: 100%;
+            padding: 18px;
+            margin-top: 15px;
+            background: var(--yellow);
+            border: none;
+            border-radius: 10px;
+            font-family: 'Bangers', cursive;
+            font-size: 1.8rem;
+            color: #333;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .login-box button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255,213,0,0.5);
+        }
+        
+        .error {
+            background: var(--red);
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 15px;
+            display: none;
+        }
+        
+        .hint {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+        
+        /* NAV */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(26,26,46,0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px;
+            z-index: 1000;
+            border-bottom: 3px solid var(--yellow);
+            display: none;
+        }
+        
+        nav.show { display: block; }
+        
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .logo {
+            font-family: 'Bangers', cursive;
+            font-size: 1.5rem;
+            color: var(--yellow);
+        }
+        
+        .nav-btns {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .nav-btn {
+            padding: 10px 18px;
+            background: rgba(255,255,255,0.1);
+            border: 2px solid transparent;
+            border-radius: 8px;
+            color: white;
+            font-family: 'Fredoka', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .nav-btn:hover, .nav-btn.active {
+            background: var(--red);
+            border-color: var(--yellow);
+        }
+        
+        /* MAIN */
+        main {
+            display: none;
+            padding-top: 80px;
+        }
+        
+        main.show { display: block; }
+        
+        .section {
+            display: none;
+            padding: 40px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .section.active { display: block; }
+        
+        .section-title {
+            font-family: 'Bangers', cursive;
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            text-align: center;
+            margin-bottom: 30px;
+            background: linear-gradient(90deg, var(--red), var(--yellow), var(--green), var(--blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        /* HERO */
+        .hero {
+            text-align: center;
+            padding: 60px 20px;
+        }
+        
+        .hero-badge {
+            display: inline-block;
+            background: var(--red);
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        .hero h1 {
+            font-family: 'Bangers', cursive;
+            font-size: clamp(4rem, 15vw, 8rem);
+            color: var(--yellow);
+            text-shadow: 5px 5px 0 var(--red), 10px 10px 0 var(--blue);
+            line-height: 1;
+            margin-bottom: 20px;
+        }
+        
+        .hero-age {
+            font-family: 'Bangers', cursive;
+            font-size: clamp(2rem, 6vw, 3rem);
+            color: #00BCD4;
+            margin-bottom: 30px;
+        }
+        
+        .hero p {
+            font-size: 1.3rem;
+            max-width: 700px;
+            margin: 0 auto 40px;
+            line-height: 1.8;
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .stat {
+            background: rgba(255,255,255,0.1);
+            border: 3px solid;
+            border-radius: 15px;
+            padding: 20px 30px;
+            min-width: 140px;
+        }
+        
+        .stat:nth-child(1) { border-color: var(--red); }
+        .stat:nth-child(2) { border-color: var(--yellow); }
+        .stat:nth-child(3) { border-color: var(--blue); }
+        .stat:nth-child(4) { border-color: var(--green); }
+        
+        .stat-num {
+            font-family: 'Bangers', cursive;
+            font-size: 3rem;
+        }
+        
+        .stat:nth-child(1) .stat-num { color: var(--red); }
+        .stat:nth-child(2) .stat-num { color: var(--yellow); }
+        .stat:nth-child(3) .stat-num { color: var(--blue); }
+        .stat:nth-child(4) .stat-num { color: var(--green); }
+        
+        /* GALLERY */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        
+        .gallery-item {
+            border-radius: 15px;
+            overflow: hidden;
+            aspect-ratio: 4/3;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 3px solid transparent;
+        }
+        
+        .gallery-item:hover {
+            transform: scale(1.05);
+            border-color: var(--yellow);
+            box-shadow: 0 15px 40px rgba(255,213,0,0.3);
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        /* VIDEOS */
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
+        }
+        
+        .video-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            overflow: hidden;
+            border: 2px solid rgba(255,255,255,0.1);
+            transition: all 0.3s;
+        }
+        
+        .video-card:hover {
+            border-color: #00BCD4;
+            box-shadow: 0 10px 30px rgba(0,188,212,0.3);
+        }
+        
+        .video-card iframe {
+            width: 100%;
+            aspect-ratio: 16/9;
+            border: none;
+        }
+        
+        .video-info {
+            padding: 15px;
+        }
+        
+        .video-title {
+            font-weight: 600;
+        }
+        
+        /* FLIP CARDS */
+        .thanks-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+        
+        .flip-card {
+            height: 350px;
+            perspective: 1000px;
+        }
+        
+        .flip-inner {
+            width: 100%;
+            height: 100%;
+            transition: transform 0.7s;
+            transform-style: preserve-3d;
+            position: relative;
+        }
+        
+        .flip-card:hover .flip-inner {
+            transform: rotateY(180deg);
+        }
+        
+        .flip-front, .flip-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 20px;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        
+        .flip-front {
+            background: rgba(255,255,255,0.1);
+            border: 3px solid;
+        }
+        
+        .flip-card:nth-child(6n+1) .flip-front { border-color: var(--red); }
+        .flip-card:nth-child(6n+2) .flip-front { border-color: var(--yellow); }
+        .flip-card:nth-child(6n+3) .flip-front { border-color: var(--blue); }
+        .flip-card:nth-child(6n+4) .flip-front { border-color: var(--green); }
+        .flip-card:nth-child(6n+5) .flip-front { border-color: var(--orange); }
+        .flip-card:nth-child(6n+6) .flip-front { border-color: var(--purple); }
+        
+        .flip-back {
+            background: var(--yellow);
+            color: #333;
+            transform: rotateY(180deg);
+        }
+        
+        .flip-avatar {
+            font-size: 4rem;
+            margin-bottom: 15px;
+        }
+        
+        .flip-name {
+            font-family: 'Bangers', cursive;
+            font-size: 1.6rem;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+        
+        .flip-card:nth-child(6n+1) .flip-name { color: var(--red); }
+        .flip-card:nth-child(6n+2) .flip-name { color: var(--yellow); }
+        .flip-card:nth-child(6n+3) .flip-name { color: var(--blue); }
+        .flip-card:nth-child(6n+4) .flip-name { color: var(--green); }
+        .flip-card:nth-child(6n+5) .flip-name { color: var(--orange); }
+        .flip-card:nth-child(6n+6) .flip-name { color: var(--purple); }
+        
+        .flip-hint {
+            margin-top: auto;
+            opacity: 0.5;
+            font-size: 0.85rem;
+        }
+        
+        .flip-msg {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            font-weight: 600;
+        }
+        
+        /* BLOOPERS */
+        .blooper-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        
+        .blooper-card {
+            border-radius: 15px;
+            overflow: hidden;
+            border: 3px solid var(--orange);
+            position: relative;
+            animation: wobble 3s ease-in-out infinite;
+        }
+        
+        .blooper-card:nth-child(odd) { animation-delay: 0.5s; }
+        
+        @keyframes wobble {
+            0%, 100% { transform: rotate(-2deg); }
+            50% { transform: rotate(2deg); }
+        }
+        
+        .blooper-card:hover {
+            animation: none;
+            transform: scale(1.05);
+        }
+        
+        .blooper-card img {
+            width: 100%;
+            aspect-ratio: 1;
+            object-fit: cover;
+        }
+        
+        .blooper-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.9));
+            padding: 40px 15px 15px;
+            font-family: 'Bangers', cursive;
+            font-size: 1.3rem;
+            color: var(--yellow);
+            text-align: center;
+        }
+        
+        /* LIGHTBOX */
+        .lightbox {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.95);
+            z-index: 10000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .lightbox.active { display: flex; }
+        
+        .lightbox img {
+            max-width: 90vw;
+            max-height: 85vh;
+            border-radius: 10px;
+        }
+        
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 3rem;
+            color: white;
+            cursor: pointer;
+        }
+        
+        .lightbox-close:hover { color: var(--red); }
+        
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 3rem;
+            color: white;
+            cursor: pointer;
+            padding: 20px;
+        }
+        
+        .lightbox-nav:hover { color: var(--yellow); }
+        
+        .lightbox-prev { left: 20px; }
+        .lightbox-next { right: 20px; }
+        
+        /* FOOTER */
+        footer {
+            text-align: center;
+            padding: 50px 20px;
+            margin-top: 50px;
+        }
+        
+        footer h2 {
+            font-family: 'Bangers', cursive;
+            font-size: 2rem;
+            color: var(--yellow);
+            text-shadow: 2px 2px 0 var(--red);
+        }
+        
+        .footer-bricks {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .footer-bricks span {
+            width: 35px;
+            height: 22px;
+            border-radius: 4px;
+            animation: pop 1.5s ease-in-out infinite;
+        }
+        
+        .footer-bricks span:nth-child(1) { background: var(--red); animation-delay: 0s; }
+        .footer-bricks span:nth-child(2) { background: var(--yellow); animation-delay: 0.1s; }
+        .footer-bricks span:nth-child(3) { background: var(--blue); animation-delay: 0.2s; }
+        .footer-bricks span:nth-child(4) { background: var(--green); animation-delay: 0.3s; }
+        .footer-bricks span:nth-child(5) { background: var(--orange); animation-delay: 0.4s; }
+        .footer-bricks span:nth-child(6) { background: var(--purple); animation-delay: 0.5s; }
+        
+        @keyframes pop {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+        
+        /* MOBILE */
+        @media (max-width: 768px) {
+            .nav-btns { width: 100%; justify-content: center; }
+            .nav-btn { padding: 8px 12px; font-size: 0.85rem; }
+            .lightbox-nav { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <!-- LOGIN SCREEN -->
+    <div id="login">
+        <div class="login-box">
+            <span class="emoji">👷</span>
+            <h1>SYLAS' PARTY!</h1>
+            <p>Enter the secret code to join the fun!</p>
+            <form id="login-form">
+                <input type="text" id="user" placeholder="Username" autocomplete="off" required>
+                <input type="password" id="pass" placeholder="Password" required>
+                <button type="submit">LET'S GO!</button>
+            </form>
+            <div class="error" id="error">Wrong code! Try again!</div>
+            <p class="hint">Hint: What goes with Lego? (breakfast!)</p>
+        </div>
+    </div>
+
+    <!-- NAV -->
+    <nav id="nav">
+        <div class="nav-content">
+            <div class="logo">🧱 SYLAS TURNS 8!</div>
+            <div class="nav-btns">
+                <button class="nav-btn active" data-section="home">🏠 Home</button>
+                <button class="nav-btn" data-section="photos">📸 Photos</button>
+                <button class="nav-btn" data-section="videos">🎬 Videos</button>
+                <button class="nav-btn" data-section="bloopers">😂 Bloopers</button>
+                <button class="nav-btn" data-section="thanks">💝 Thanks</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <main id="main">
+        <!-- HOME -->
+        <section id="home" class="section active">
+            <div class="hero">
+                <span class="hero-badge">🎉 FEBRUARY 1, 2026 🎉</span>
+                <h1>SYLAS</h1>
+                <div class="hero-age">⭐ LEVELS UP TO 8! ⭐</div>
+                <p>The ultimate Master Builder has officially leveled up! Thanks to all the awesome friends and family who came to celebrate this EPIC LEGOLAND birthday bash! 🧱🎂🎁</p>
+                <div class="stats">
+                    <div class="stat"><div class="stat-num">8</div><div>Years Old</div></div>
+                    <div class="stat"><div class="stat-num">∞</div><div>LEGOs Built</div></div>
+                    <div class="stat"><div class="stat-num">58</div><div>Videos</div></div>
+                    <div class="stat"><div class="stat-num">💯</div><div>Awesome</div></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PHOTOS -->
+        <section id="photos" class="section">
+            <h2 class="section-title">📸 PHOTO GALLERY 📸</h2>
+            <div class="gallery-grid" id="photo-grid"></div>
+        </section>
+
+        <!-- VIDEOS -->
+        <section id="videos" class="section">
+            <h2 class="section-title">🎬 PARTY VIDEOS 🎬</h2>
+            <div class="video-grid" id="video-grid"></div>
+        </section>
+
+        <!-- BLOOPERS -->
+        <section id="bloopers" class="section">
+            <h2 class="section-title">😂 BLOOPER REEL 😂</h2>
+            <div class="blooper-grid" id="blooper-grid"></div>
+        </section>
+
+        <!-- THANKS -->
+        <section id="thanks" class="section">
+            <h2 class="section-title">💝 THANK YOU! 💝</h2>
+            <p style="text-align:center; margin-bottom:30px; font-size:1.1rem;">Hover over each card to see Sylas' special message!</p>
+            <div class="thanks-grid">
+                <div class="flip-card"><div class="flip-inner"><div class="flip-front"><div class="flip-avatar">🦸</div><h3 class="flip-name">CALVIN & EVA</h3><p>Dynamic duo alert!</p><span class="flip-hint">↻ Hover to flip!</span></div><div class="flip-back"><p class="flip-msg">Calvin & Eva - you two are AWESOME! Thanks for coming to my LEGO party! You're the best building buddies ever! 🧱⭐</p></div></div></div>
+                <div class="flip-card"><div class="flip-inner"><div class="flip-front"><div class="flip-avatar">⚡</div><h3 class="flip-name">CHARLIE & EEVEE</h3><p>Party superstars!</p><span class="flip-hint">↻ Hover to flip!</span></div><div class="flip-back"><p class="flip-msg">Charlie & Eevee - you guys are SO cool! Thanks for celebrating with me at LEGOLAND! You rock! 🎉🔥</p></div></div></div>
+                <div class="flip-card"><div class="flip-inner"><div class="flip-front"><div class="flip-avatar">🚀</div><h3 class="flip-name">DYLAN & HUDSON</h3><p>Adventure squad!</p><span class="flip-hint">↻ Hover to flip!</span></div><div class="flip-back"><p class="flip-msg">Dylan & Hudson - thanks for being awesome friends! My birthday was LEGENDARY because of you! 🏗️💪</p></div></div></div>
+                <div class="flip-card"><div class="flip-inner"><div class="flip-front"><div class="flip-avatar">🌟</div><h3 class="flip-name">GIOVANNI & SIENNA</h3><p>Master Builders!</p><span class="flip-hint">↻ Hover to flip!</span></div><div class="flip-back"><p class="flip-msg">Giovanni & Sienna - you two are amazing! We had the BEST time at LEGOLAND together! 🧱🎊</p></div></div></div>
+                <div class="flip-card"><div class="flip-inner"><div class="flip-front"><div class="flip-avatar">🎯</div><h3 class="flip-name">HARLEY</h3><p>Total legend!</p><span class="flip-hint">↻ Hover to flip!</span></div><div class="flip-back"><p class="flip-msg">Harley - dude, you're AWESOME! Having you there made it so much more fun! 🏆😎</p></div></div></div>
+                <div class="flip-card"><div class="flip-inner"><div class="flip-front"><div class="flip-avatar">🎮</div><h3 class="flip-name">HENRY</h3><p>Epic friend!</p><span class="flip-hint">↻ Hover to flip!</span></div><div class="flip-back"><p class="flip-msg">Henry - thanks for being such a great friend! You're one of the coolest people I know! 🎉👊</p></div></div></div>
+                <div class="flip-card"><div class="flip-inner"><div class="flip-front"><div class="flip-avatar">👑</div><h3 class="flip-name">KIRIAN, HELAYNA & LEVI</h3><p>The triple threat!</p><span class="flip-hint">↻ Hover to flip!</span></div><div class="flip-back"><p class="flip-msg">Kirian, Helayna & Levi - THREE times the awesome! I had so much fun with all of you! 🌈🎂💯</p></div></div></div>
+                <div class="flip-card"><div class="flip-inner"><div class="flip-front"><div class="flip-avatar">💥</div><h3 class="flip-name">WILL</h3><p>The real MVP!</p><span class="flip-hint">↻ Hover to flip!</span></div><div class="flip-back"><p class="flip-msg">Will - you're a LEGEND! Can't wait for our next adventure together, buddy! 🚀⭐</p></div></div></div>
+                <div class="flip-card"><div class="flip-inner"><div class="flip-front"><div class="flip-avatar">🧱</div><h3 class="flip-name">LEGO GIFTS</h3><p>Best presents EVER!</p><span class="flip-hint">↻ Hover to flip!</span></div><div class="flip-back"><p class="flip-msg">All those AMAZING Lego sets - Ninjago, Super Mario, Minecraft, Sonic! LEGENDARY! 🎮🔥</p></div></div></div>
+                <div class="flip-card"><div class="flip-inner"><div class="flip-front"><div class="flip-avatar">👨‍👩‍👦</div><h3 class="flip-name">MOM & DAD</h3><p>The BEST parents!</p><span class="flip-hint">↻ Hover to flip!</span></div><div class="flip-back"><p class="flip-msg">Thanks for the most EPIC party ever! You're the best parents in the UNIVERSE! I love you! ❤️🌟</p></div></div></div>
+                <div class="flip-card"><div class="flip-inner"><div class="flip-front"><div class="flip-avatar">💙</div><h3 class="flip-name">ALL FAMILIES</h3><p>YOU'RE ALL AMAZING!</p><span class="flip-hint">↻ Hover to flip!</span></div><div class="flip-back"><p class="flip-msg">To all the parents - THANK YOU! See everyone next year for LEVEL 9! 🏆🎊💯</p></div></div></div>
+                <div class="flip-card"><div class="flip-inner"><div class="flip-front"><div class="flip-avatar">🎂</div><h3 class="flip-name">FROM SYLAS</h3><p>With love!</p><span class="flip-hint">↻ Hover to flip!</span></div><div class="flip-back"><p class="flip-msg">This was the GREATEST birthday EVER! Thank you for all the gifts, fun, and memories! 🎉🧱❤️</p></div></div></div>
+            </div>
+        </section>
+
+        <footer>
+            <h2>🧱 SYLAS' 8TH BIRTHDAY - BUILT WITH LOVE! 🧱</h2>
+            <div class="footer-bricks">
+                <span></span><span></span><span></span><span></span><span></span><span></span>
+            </div>
+        </footer>
+    </main>
+
+    <!-- LIGHTBOX -->
+    <div class="lightbox" id="lightbox">
+        <span class="lightbox-close" id="lb-close">&times;</span>
+        <span class="lightbox-nav lightbox-prev" id="lb-prev">&#10094;</span>
+        <img id="lb-img" src="" alt="Photo">
+        <span class="lightbox-nav lightbox-next" id="lb-next">&#10095;</span>
+    </div>
+
+<script>
+// PHOTO LIBRARY - Add new photos here!
+const photos = [
+    {id:'1now95_rUc0Lm4y1Qcr0FafhHLhL3Zu4x', caption:'Building Time!'},
+    {id:'1maQNd95mhD8AD28uVE16p2pD6LG8jBhf', caption:'Character Meet!'},
+    {id:'1kVjgxD8mOSv4Isk4a4g3AhLVn8D7VIEi', caption:'Squad Goals!'},
+    {id:'1AJ2lFwIRfZRJ-N15pwGSV6spqwW5qsFo', caption:'Party Mode!'},
+    {id:'1jBuwdL-rCB6qgbMfS9ey3Nfsm5xdPzv0', caption:'VIP Treatment!'},
+    {id:'1mFU2UdfCFMh--Pk3f845qFmCqHRluhJ1', caption:'Best Day Ever!'},
+    {id:'1kYEsArLBEA0iLLUlo6NVSdWB2I0MTo3v', caption:'Master Builder!'},
+    {id:'1aSq9J_s0bj10l0yhlpSHYbINjt4nTjQB', caption:'Celebration!'},
+    {id:'10eVUXfFOLISzuFEwwE70oVgrfTb4N6-p', caption:'Cool Crew!'},
+    {id:'1mn9I0YzGqf_VkmPVR9aM0GgHceVMzEjW', caption:'Party Time!'},
+    {id:'1zsB4WRK5pv7dhQqLDYWB6oCKXRRyZ7O1', caption:'Awesome!'},
+    {id:'19x8JXltWd1OyP4GBzzpHvFe-ilvLGucg', caption:'Presents!'},
+    {id:'142HVp-LPCDwSL3BHd_q1m_P4mXZIVMUC', caption:'Game On!'},
+    {id:'14m89IJ5BzlEEwpYg76ApJE-EbP5lgHd_', caption:'Team Photo!'},
+    {id:'1SBPqMzFlLd_ZmHyZ_iC3fuHDxzscmwVs', caption:'Champions!'},
+    {id:'10e8lQHMEIeaDIRRRHObQoIfGCd9hiw9s', caption:'Memories!'},
+    {id:'1tGTqFtG6UpSxH9vZ2EwnTdbrjuqseAd1', caption:'Fun Times!'},
+    {id:'15X346y2br3BaIPT-WbpGPGT-Bw3CWx6r', caption:'Birthday Boy!'},
+    {id:'1qnlb9TBIcTtbXnYdnN09zZ3vMSuzMqDN', caption:'LEGO Land!'}
+];
+
+// VIDEO LIBRARY
+const videos = [
+    {id:'1IvyOchLIAbyX7X3U-Z_TBGkqr8UQQ_4b', title:'Party Clip 1'},
+    {id:'1TDuZGiHv4uYIEwh96Egy-iNe8VqTaXwL', title:'Party Clip 2'},
+    {id:'1fyvLvmngL7mOFuo7cTp3do2OAujePfDz', title:'Party Clip 3'},
+    {id:'1L0X8QLPnMcb_1NwAWCbZNolE7dRBIOIF', title:'Party Clip 4'},
+    {id:'1lm2X6nx9YG4D707DgjAC79RFxlv3shSd', title:'Party Clip 5'},
+    {id:'1LdbWG9l5e3gSTV-3CVo94NFvW6REvEVX', title:'Party Clip 6'},
+    {id:'1aLlisZOpcRqN_K6ipsfzUeXrJrNZVJyA', title:'Party Clip 7'},
+    {id:'1qFrOReZ2Y6XPz_c1UjUdGGI1mIN7_faC', title:'Party Clip 8'},
+    {id:'1QR_O630M-scuhEiBvvgcisKA1tt1cCTC', title:'Party Clip 9'},
+    {id:'1Ymp0rD63hDKUW_5KPM_7-meC8biQMAIz', title:'Party Clip 10'},
+    {id:'191Dy-l2t2_dII6TetIF2uG5bW_Df8Q-1', title:'Party Clip 11'},
+    {id:'1yjpQ-ayPOMXLn6ljn1XPyWoaZ75bf8wG', title:'Party Movie'},
+    {id:'1b7CTIN4c63C_2JAFYTeZfGSx8Lx9NpBW', title:'Party Clip 12'},
+    {id:'1WsQsvCHEdokdlVXH92Fd5xftFitGPITb', title:'Party Clip 13'},
+    {id:'1AUvz59gh9JpumA99MJdUGmyYTF39k7y4', title:'Party Clip 14'},
+    {id:'1rZddw40aBfd9UlIAG3P9xFM95-2vv4pA', title:'Party Clip 15'},
+    {id:'14G6qe8ivhfwpzs3gPqBFK08U43V8AE8F', title:'Party Clip 16'},
+    {id:'11btW3Q9sIjH8DIBxbHSowhmNhMombHTW', title:'Party Clip 17'},
+    {id:'1CHyF7XwQLXKS3igU5qqBQUpj80mA2g3c', title:'Party Clip 18'},
+    {id:'1FL8hZFPf_fo_YtO5oqdKBLSm4n_J88j7', title:'Party Clip 19'},
+    {id:'1LPgPBgrUeblwx9s-omQZh5GhVeakjL25', title:'Party Clip 20'},
+    {id:'1J_nfUcPofOAS-mFMC1Pk7UfF1oql9K2K', title:'Party Clip 21'},
+    {id:'11Am7zshL9_ChDNqzTzrzjhYzmHbL8wTU', title:'Party Clip 22'},
+    {id:'1Yn2qB9QKlQPhRDKChfR4gg44oZypBU-W', title:'Party Clip 23'},
+    {id:'1r-qwcDLQujgELLjPVW0RRO8Mie0RZ1Zm', title:'Party Clip 24'},
+    {id:'1Jeat0AC3chbSQ5QOHCbym_YidA_h7mT4', title:'Party Clip 25'},
+    {id:'12elnESaXBnj1YO2ai65NhQ7CeJ8dkpnl', title:'Party Clip 26'},
+    {id:'1iOmggW7IvcHZ19hT0GQVEIqVpHHPjnYJ', title:'Party Clip 27'},
+    {id:'1G4hbosbgPdPJq-Iz8Yh7XUTIABzyoSXu', title:'Party Clip 28'},
+    {id:'1ZvOF_7Sc09PPqgaQDYZhYqQ5kBsOUPZv', title:'Party Clip 29'},
+    {id:'1eturFCzvK9BaHn55_EsbBLWUacI2pus6', title:'Party Clip 30'},
+    {id:'1yiaWpD8tdZhu6N0C4nk2Ga5oJY7HDcFV', title:'Party Clip 31'},
+    {id:'1DgDI_a1ouyQ1d-Gw13vfGQIp7wtjKKTi', title:'Party Clip 32'},
+    {id:'12n-Yh6g3m5vBOrysoq0QDLiALQ4yObrM', title:'Party Clip 33'},
+    {id:'1hOm_3AYvWaUhcA8C4-YMypxZZ_QCH3RK', title:'Party Clip 34'},
+    {id:'1Fcfh14Ntg9Wy9zq5YfHryEznkLRh-xpu', title:'Party Clip 35'},
+    {id:'1LRZ6Jbl3sorgutsNYehuAN52tNNqIItU', title:'Party Clip 36'},
+    {id:'1fHyz6pkvEdyHp2thsILYFeu6MSCYD2QB', title:'Party Clip 37'},
+    {id:'17CNEXMK431zQ-T0tWGPhAhI50GTs3Bmq', title:'Party Clip 38'},
+    {id:'1SSQwv8PCOfSxFpqqJ3j4GwKfJM_Wy8MG', title:'Party Clip 39'},
+    {id:'106rrHDp0EdKxDJQ4HgPJB6w1Je73BtyJ', title:'Party Clip 40'},
+    {id:'1PhYc9PLnU9HpqGJpPvEihnze_y4stSUO', title:'Party Clip 41'},
+    {id:'1awdkXGlXymmHL0J-J0jh5Jn5HPwypAZc', title:'Party Clip 42'},
+    {id:'1lJAABxQXu135kH_0osCmfvxgvzIqcqR5', title:'Party Clip 43'},
+    {id:'13DzwGlyZ65WnCxb-U_evd2s9Ovr75Tol', title:'Party Clip 44'},
+    {id:'15uuCPkQGA7xFALNQkgjomxsx478f0MTa', title:'Party Clip 45'},
+    {id:'1TADL5apEL3kQLjDPd9oLhbLVSnRH9iYN', title:'Party Clip 46'},
+    {id:'1mt7nmTGAUalRcTPzh3IMjEsKNRvOGKbx', title:'Party Clip 47'},
+    {id:'1T69E5S9U7WiGWr5dxaxaww3uErPLMa6B', title:'Party Clip 48'},
+    {id:'1svjph059tXsFnDO_k25KHU7LPrJGacCH', title:'Party Clip 49'},
+    {id:'1AvnWUeh8eg7DRc6OaZdSgf13FXQXV6FW', title:'Party Clip 50'},
+    {id:'1bmYuc_a4Ey8M5fBhepkUoJlfRi3ldZ5o', title:'Party Clip 51'},
+    {id:'1oClFSbtQ9MPUbioYeNEtv9Ux4AmVwITl', title:'Party Clip 52'},
+    {id:'1mMsmrLiOT30CO56HmNvWpfRG-Ix-2LQR', title:'Party Clip 53'},
+    {id:'14lLk4yaRVNpwPV0AdBhVLFUmHGdCzbEZ', title:'Party Clip 54'},
+    {id:'1lD3yXYFEzxysirdxtEEDomej3GC50SQ-', title:'Party Clip 55'},
+    {id:'1tgn44THjqv7orPXoeB-M84H7CU6OtIGd', title:'Party Clip 56'},
+    {id:'1fXAsU6L3HnOVyiV_-RiP9T4fA7vw21Q3', title:'Party Clip 57'},
+    {id:'1bjNKyyGQBiXoqw06CTo1Py6-IEMcsP69', title:'Party Clip 58'}
+];
+
+const blooperCaptions = ['Surprised!', 'Silly!', 'Too Cool!', 'Goofy!', 'LOL!', 'Ha!'];
+
+function imgUrl(id, sz) {
+    return 'https://drive.google.com/thumbnail?id=' + id + '&sz=w' + (sz || 600);
+}
+
+let currentIdx = 0;
+
+// LOGIN
+document.getElementById('login-form').onsubmit = function(e) {
+    e.preventDefault();
+    var u = document.getElementById('user').value;
+    var p = document.getElementById('pass').value;
+    if (u === 'Lego' && p === 'MyEggo') {
+        document.getElementById('login').classList.add('hidden');
+        document.getElementById('nav').classList.add('show');
+        document.getElementById('main').classList.add('show');
+        loadContent();
+    } else {
+        document.getElementById('error').style.display = 'block';
+    }
+};
+
+// LOAD CONTENT
+function loadContent() {
+    loadPhotos();
+    loadVideos();
+    loadBloopers();
+}
+
+function loadPhotos() {
+    var grid = document.getElementById('photo-grid');
+    photos.forEach(function(p, i) {
+        var div = document.createElement('div');
+        div.className = 'gallery-item';
+        div.innerHTML = '<img src="' + imgUrl(p.id, 600) + '" alt="' + p.caption + '">';
+        div.onclick = function() { openLightbox(i); };
+        grid.appendChild(div);
+    });
+}
+
+function loadVideos() {
+    var grid = document.getElementById('video-grid');
+    videos.forEach(function(v, i) {
+        var div = document.createElement('div');
+        div.className = 'video-card';
+        div.innerHTML = '<iframe src="https://drive.google.com/file/d/' + v.id + '/preview" allowfullscreen loading="lazy"></iframe><div class="video-info"><div class="video-title">' + v.title + '</div></div>';
+        grid.appendChild(div);
+    });
+}
+
+function loadBloopers() {
+    var grid = document.getElementById('blooper-grid');
+    photos.slice(5, 11).forEach(function(p, i) {
+        var div = document.createElement('div');
+        div.className = 'blooper-card';
+        div.innerHTML = '<img src="' + imgUrl(p.id, 500) + '" alt="Blooper"><div class="blooper-caption">' + (blooperCaptions[i] || 'Oops!') + '</div>';
+        grid.appendChild(div);
+    });
+}
+
+// NAV
+document.querySelectorAll('.nav-btn').forEach(function(btn) {
+    btn.onclick = function() {
+        var target = this.getAttribute('data-section');
+        document.querySelectorAll('.nav-btn').forEach(function(b) { b.classList.remove('active'); });
+        this.classList.add('active');
+        document.querySelectorAll('.section').forEach(function(s) { s.classList.remove('active'); });
+        document.getElementById(target).classList.add('active');
+        window.scrollTo({top: 0, behavior: 'smooth'});
+    };
+});
+
+// LIGHTBOX
+var lightbox = document.getElementById('lightbox');
+var lbImg = document.getElementById('lb-img');
+
+function openLightbox(idx) {
+    currentIdx = idx;
+    lbImg.src = imgUrl(photos[idx].id, 1200);
+    lightbox.classList.add('active');
+}
+
+document.getElementById('lb-close').onclick = function() { lightbox.classList.remove('active'); };
+lightbox.onclick = function(e) { if (e.target === lightbox) lightbox.classList.remove('active'); };
+
+document.getElementById('lb-prev').onclick = function() {
+    currentIdx = (currentIdx - 1 + photos.length) % photos.length;
+    lbImg.src = imgUrl(photos[currentIdx].id, 1200);
+};
+
+document.getElementById('lb-next').onclick = function() {
+    currentIdx = (currentIdx + 1) % photos.length;
+    lbImg.src = imgUrl(photos[currentIdx].id, 1200);
+};
+
+document.onkeydown = function(e) {
+    if (lightbox.classList.contains('active')) {
+        if (e.key === 'Escape') lightbox.classList.remove('active');
+        if (e.key === 'ArrowLeft') document.getElementById('lb-prev').click();
+        if (e.key === 'ArrowRight') document.getElementById('lb-next').click();
+    }
+};
+</script>
+</body>
+</html>
