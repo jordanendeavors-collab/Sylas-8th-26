@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sylas' 8th LEGO Birthday Bash! | sylaslego.com</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Fredoka:wght@400;500;600;700&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --lego-red: #E3000B;
+            --lego-yellow: #FFD500;
+            --lego-blue: #006DB7;
+            --lego-green: #00AF4D;
+            --lego-orange: #FF6D00;
+            --lego-black: #1B1B1B;
+            --lego-white: #FFFFFF;
+            --lego-purple: #8B008B;
+            --lego-cyan: #00BCD4;
+            --glow-red: rgba(227, 0, 11, 0.6);
+            --glow-yellow: rgba(255, 213, 0, 0.6);
+            --glow-blue: rgba(0, 109, 183, 0.6);
+            --glow-green: rgba(0, 175, 77, 0.6);
+            --glow-orange: rgba(255, 109, 0, 0.6);
+            --glow-purple: rgba(139, 0, 139, 0.6);
+            --glow-cyan: rgba(0, 188, 212, 0.6);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Fredoka', sans-serif;
+            background: linear-gradient(180deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            color: var(--lego-white);
+        }
+
+        /* FLOATING LEGO BRICKS */
+        .floating-bricks { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
+        .brick { position: absolute; width: 50px; height: 30px; border-radius: 5px; opacity: 0.2; animation: floatBrick 18s infinite ease-in-out; }
+        .brick::before, .brick::after { content: ''; position: absolute; top: -10px; width: 14px; height: 10px; background: inherit; border-radius: 50% 50% 0 0; }
+        .brick::before { left: 18%; }
+        .brick::after { left: 58%; }
+        .brick:nth-child(1) { left: 3%; top: 8%; background: var(--lego-red); animation-delay: 0s; }
+        .brick:nth-child(2) { left: 12%; top: 25%; background: var(--lego-yellow); animation-delay: 1.5s; }
+        .brick:nth-child(3) { left: 22%; top: 45%; background: var(--lego-blue); animation-delay: 3s; }
+        .brick:nth-child(4) { left: 32%; top: 65%; background: var(--lego-green); animation-delay: 4.5s; }
+        .brick:nth-child(5) { left: 42%; top: 15%; background: var(--lego-orange); animation-delay: 6s; }
+        .brick:nth-child(6) { left: 52%; top: 35%; background: var(--lego-red); animation-delay: 7.5s; }
+        .brick:nth-child(7) { left: 62%; top: 55%; background: var(--lego-yellow); animation-delay: 9s; }
+        .brick:nth-child(8) { left: 72%; top: 75%; background: var(--lego-blue); animation-delay: 10.5s; }
+        .brick:nth-child(9) { left: 82%; top: 20%; background: var(--lego-green); animation-delay: 12s; }
+        .brick:nth-child(10) { left: 92%; top: 40%; background: var(--lego-orange); animation-delay: 13.5s; }
+        .brick:nth-child(11) { left: 8%; top: 80%; background: var(--lego-purple); animation-delay: 2s; }
+        .brick:nth-child(12) { left: 88%; top: 70%; background: var(--lego-cyan); animation-delay: 5s; }
+        .brick:nth-child(13) { left: 48%; top: 85%; background: var(--lego-red); animation-delay: 8s; }
+        .brick:nth-child(14) { left: 28%; top: 5%; background: var(--lego-yellow); animation-delay: 11s; }
+        .brick:nth-child(15) { left: 68%; top: 10%; background: var(--lego-blue); animation-delay: 14s; }
+        @keyframes floatBrick { 0%, 100% { transform: translateY(0) rotate(0deg) scale(1); } 25% { transform: translateY(-40px) rotate(15deg) scale(1.1); } 50% { transform: translateY(-20px) rotate(-10deg) scale(0.95); } 75% { transform: translateY(-50px) rotate(20deg) scale(1.05); } }
+
+        /* SPARKLES */
+        .sparkles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+        .sparkle { position: absolute; width: 4px; height: 4px; background: white; border-radius: 50%; animation: sparkle 3s infinite ease-in-out; }
+        @keyframes sparkle { 0%, 100% { opacity: 0; transform: scale(0); } 50% { opacity: 1; transform: scale(1); } }
+
+        /* LOGIN SCREEN */
+        #login-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); display: flex; justify-content: center; align-items: center; z-index: 10000; transition: all 1s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
+        #login-screen.hidden { opacity: 0; transform: scale(2) rotate(360deg); pointer-events: none; }
+        .login-container { text-align: center; padding: 20px; }
+        .mega-title { font-family: 'Bangers', cursive; font-size: clamp(2.5rem, 8vw, 5rem); letter-spacing: 4px; margin-bottom: 10px; animation: rainbowPulse 3s infinite; text-shadow: 4px 4px 0 var(--lego-red), 8px 8px 0 var(--lego-yellow), 12px 12px 0 var(--lego-blue); }
+        @keyframes rainbowPulse { 0%, 100% { color: var(--lego-yellow); } 33% { color: var(--lego-red); } 66% { color: var(--lego-blue); } }
+        .login-subtitle { font-family: 'Press Start 2P', monospace; font-size: clamp(0.5rem, 2vw, 0.9rem); color: var(--lego-cyan); margin-bottom: 30px; animation: blink 1s infinite; }
+        @keyframes blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0.5; } }
+        .login-box { background: linear-gradient(145deg, rgba(255,255,255,0.15), rgba(255,255,255,0.05)); backdrop-filter: blur(20px); border: 4px solid var(--lego-yellow); border-radius: 24px; padding: 40px; max-width: 420px; margin: 0 auto; box-shadow: 0 0 60px var(--glow-yellow), inset 0 0 60px rgba(255, 213, 0, 0.1); animation: boxFloat 4s ease-in-out infinite, borderGlow 3s infinite; }
+        @keyframes boxFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+        @keyframes borderGlow { 0%, 100% { border-color: var(--lego-yellow); box-shadow: 0 0 40px var(--glow-yellow); } 33% { border-color: var(--lego-red); box-shadow: 0 0 40px var(--glow-red); } 66% { border-color: var(--lego-blue); box-shadow: 0 0 40px var(--glow-blue); } }
+        .lego-man { font-size: 100px; margin-bottom: 20px; animation: legoSpin 2s ease-in-out infinite; display: block; }
+        @keyframes legoSpin { 0%, 100% { transform: rotateY(0deg) scale(1); } 25% { transform: rotateY(15deg) scale(1.1); } 75% { transform: rotateY(-15deg) scale(1.1); } }
+        .input-wrapper { margin-bottom: 20px; text-align: left; }
+        .input-wrapper label { display: block; font-family: 'Bangers', cursive; font-size: 1.3rem; color: var(--lego-yellow); margin-bottom: 8px; letter-spacing: 2px; }
+        .input-wrapper input { width: 100%; padding: 18px 22px; font-size: 1.2rem; font-family: 'Fredoka', sans-serif; border: 3px solid var(--lego-blue); border-radius: 14px; background: rgba(0, 0, 0, 0.6); color: var(--lego-white); transition: all 0.4s; }
+        .input-wrapper input:focus { outline: none; border-color: var(--lego-green); box-shadow: 0 0 30px var(--glow-green); transform: scale(1.03); }
+        .login-btn { width: 100%; padding: 20px; font-family: 'Bangers', cursive; font-size: 2rem; letter-spacing: 3px; color: var(--lego-black); background: linear-gradient(145deg, var(--lego-yellow), #e6c200); border: none; border-radius: 14px; cursor: pointer; position: relative; overflow: hidden; transition: all 0.3s; box-shadow: 0 8px 0 #b8a000, 0 15px 40px rgba(255, 213, 0, 0.5); }
+        .login-btn::after { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent); animation: shimmer 2s infinite; }
+        @keyframes shimmer { 0% { left: -100%; } 100% { left: 100%; } }
+        .login-btn:hover { transform: translateY(-6px); box-shadow: 0 14px 0 #b8a000, 0 25px 60px rgba(255, 213, 0, 0.7); }
+        .login-btn:active { transform: translateY(4px); box-shadow: 0 2px 0 #b8a000; }
+        .error-message { color: var(--lego-white); font-weight: 700; margin-top: 15px; padding: 15px; background: linear-gradient(145deg, var(--lego-red), #b8000a); border-radius: 10px; display: none; animation: shake 0.5s; }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 20%, 60% { transform: translateX(-10px); } 40%, 80% { transform: translateX(10px); } }
+        .hint { margin-top: 25px; font-size: 0.9rem; color: rgba(255, 255, 255, 0.6); }
+        .hint strong { color: var(--lego-cyan); }
+
+        /* MAIN APP */
+        #main-app { display: none; position: relative; z-index: 1; }
+        #main-app.active { display: block; animation: explodeIn 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+        @keyframes explodeIn { 0% { opacity: 0; transform: scale(0.5); filter: blur(20px); } 100% { opacity: 1; transform: scale(1); filter: blur(0); } }
+
+        /* NAVIGATION */
+        .game-nav { position: fixed; top: 0; left: 0; width: 100%; background: linear-gradient(180deg, rgba(26, 26, 46, 0.98) 0%, rgba(22, 33, 62, 0.95) 100%); backdrop-filter: blur(15px); padding: 12px 0; z-index: 1000; border-bottom: 4px solid; border-image: linear-gradient(90deg, var(--lego-red), var(--lego-yellow), var(--lego-green), var(--lego-blue), var(--lego-purple)) 1; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6); }
+        .nav-inner { max-width: 1400px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; flex-wrap: wrap; gap: 10px; }
+        .nav-logo { font-family: 'Bangers', cursive; font-size: 1.6rem; color: var(--lego-yellow); text-shadow: 3px 3px 0 var(--lego-red); display: flex; align-items: center; gap: 10px; animation: logoGlow 3s infinite; }
+        @keyframes logoGlow { 0%, 100% { text-shadow: 3px 3px 0 var(--lego-red), 0 0 20px var(--glow-yellow); } 50% { text-shadow: 3px 3px 0 var(--lego-red), 0 0 40px var(--glow-yellow); } }
+        .nav-logo span { font-size: 2rem; animation: bounce 2s infinite; }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        .nav-buttons { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+        .nav-btn { font-family: 'Fredoka', sans-serif; font-size: 0.9rem; font-weight: 600; padding: 12px 20px; border: 3px solid transparent; border-radius: 10px; cursor: pointer; transition: all 0.4s; background: rgba(255, 255, 255, 0.1); color: var(--lego-white); position: relative; overflow: hidden; }
+        .nav-btn::before { content: ''; position: absolute; top: 50%; left: 50%; width: 0; height: 0; background: var(--lego-yellow); border-radius: 50%; transform: translate(-50%, -50%); transition: width 0.6s, height 0.6s; z-index: -1; }
+        .nav-btn:hover::before { width: 300px; height: 300px; }
+        .nav-btn:hover { color: var(--lego-black); transform: translateY(-4px) scale(1.05); box-shadow: 0 10px 30px var(--glow-yellow); }
+        .nav-btn.active { background: linear-gradient(145deg, var(--lego-red), #b8000a); color: var(--lego-white); border-color: var(--lego-yellow); box-shadow: 0 0 30px var(--glow-red); animation: activeGlow 2s infinite; }
+        @keyframes activeGlow { 0%, 100% { box-shadow: 0 0 20px var(--glow-red); } 50% { box-shadow: 0 0 40px var(--glow-red); } }
+
+        /* SECTIONS */
+        .section { display: none; padding: 110px 20px 40px; min-height: 100vh; max-width: 1400px; margin: 0 auto; }
+        .section.active { display: block; animation: sectionIn 0.8s ease-out; }
+        @keyframes sectionIn { 0% { opacity: 0; transform: translateY(50px); } 100% { opacity: 1; transform: translateY(0); } }
+        .section-header { text-align: center; margin-bottom: 50px; }
+        .section-title { font-family: 'Bangers', cursive; font-size: clamp(2.5rem, 8vw, 4.5rem); letter-spacing: 4px; margin-bottom: 15px; background: linear-gradient(90deg, var(--lego-red), var(--lego-yellow), var(--lego-green), var(--lego-blue), var(--lego-purple), var(--lego-red)); background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: gradientFlow 4s linear infinite; }
+        @keyframes gradientFlow { 0% { background-position: 0% center; } 100% { background-position: 200% center; } }
+        .section-subtitle { font-size: 1.2rem; color: rgba(255, 255, 255, 0.8); max-width: 600px; margin: 0 auto; }
+
+        /* HERO */
+        .hero-content { text-align: center; padding-top: 40px; }
+        .hero-badge { display: inline-block; background: linear-gradient(145deg, var(--lego-red), #b8000a); color: var(--lego-white); padding: 12px 30px; border-radius: 50px; font-weight: 700; font-size: 1rem; margin-bottom: 25px; animation: badgePulse 2s infinite, badgeFloat 3s ease-in-out infinite; box-shadow: 0 5px 30px var(--glow-red); border: 2px solid var(--lego-yellow); }
+        @keyframes badgePulse { 0%, 100% { box-shadow: 0 0 20px var(--glow-red); } 50% { box-shadow: 0 0 50px var(--glow-red); } }
+        @keyframes badgeFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+        .hero-title { font-family: 'Bangers', cursive; font-size: clamp(3.5rem, 14vw, 8rem); letter-spacing: 6px; line-height: 0.95; margin-bottom: 25px; text-shadow: 6px 6px 0 var(--lego-red), 12px 12px 0 var(--lego-blue), 18px 18px 0 var(--lego-green), 24px 24px 0 rgba(0,0,0,0.3); }
+        .hero-name { color: var(--lego-yellow); animation: nameGlow 2s infinite; }
+        @keyframes nameGlow { 0%, 100% { filter: drop-shadow(0 0 10px var(--glow-yellow)); } 50% { filter: drop-shadow(0 0 30px var(--glow-yellow)); } }
+        .hero-age { font-family: 'Press Start 2P', monospace; font-size: clamp(1.8rem, 6vw, 3.5rem); color: var(--lego-cyan); margin-bottom: 35px; text-shadow: 4px 4px 0 var(--lego-purple); animation: ageGlow 1.5s infinite alternate; }
+        @keyframes ageGlow { 0% { text-shadow: 4px 4px 0 var(--lego-purple), 0 0 20px var(--glow-cyan); } 100% { text-shadow: 4px 4px 0 var(--lego-purple), 0 0 50px var(--glow-cyan); } }
+        .hero-message { font-size: 1.4rem; max-width: 750px; margin: 0 auto 50px; color: rgba(255, 255, 255, 0.95); line-height: 1.9; }
+        .hero-stats { display: flex; justify-content: center; gap: 25px; flex-wrap: wrap; margin-top: 40px; }
+        .stat-brick { background: linear-gradient(145deg, rgba(255,255,255,0.12), rgba(255,255,255,0.05)); border: 3px solid; border-radius: 20px; padding: 25px 35px; min-width: 160px; transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); backdrop-filter: blur(10px); }
+        .stat-brick:hover { transform: translateY(-15px) scale(1.08) rotate(2deg); }
+        .stat-brick:nth-child(1) { border-color: var(--lego-red); box-shadow: 0 0 40px var(--glow-red); }
+        .stat-brick:nth-child(2) { border-color: var(--lego-yellow); box-shadow: 0 0 40px var(--glow-yellow); }
+        .stat-brick:nth-child(3) { border-color: var(--lego-blue); box-shadow: 0 0 40px var(--glow-blue); }
+        .stat-brick:nth-child(4) { border-color: var(--lego-green); box-shadow: 0 0 40px var(--glow-green); }
+        .stat-number { font-family: 'Bangers', cursive; font-size: 3.5rem; line-height: 1; }
+        .stat-brick:nth-child(1) .stat-number { color: var(--lego-red); }
+        .stat-brick:nth-child(2) .stat-number { color: var(--lego-yellow); }
+        .stat-brick:nth-child(3) .stat-number { color: var(--lego-blue); }
+        .stat-brick:nth-child(4) .stat-number { color: var(--lego-green); }
+        .stat-label { font-size: 0.95rem; color: rgba(255, 255, 255, 0.8); margin-top: 8px; }
+
+        /* CAROUSEL */
+        .carousel-container { position: relative; width: 100%; max-width: 900px; margin: 50px auto; overflow: hidden; border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 40px var(--glow-yellow); border: 4px solid var(--lego-yellow); }
+        .carousel-track { display: flex; transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+        .carousel-slide { min-width: 100%; position: relative; }
+        .carousel-slide img { width: 100%; height: 500px; object-fit: cover; }
+        .carousel-controls { position: absolute; bottom: 20px; right: 20px; display: flex; gap: 10px; z-index: 10; }
+        .carousel-btn { width: 50px; height: 50px; border-radius: 50%; border: 3px solid white; background: rgba(0,0,0,0.6); color: white; font-size: 1.5rem; cursor: pointer; transition: all 0.3s; }
+        .carousel-btn:hover { background: var(--lego-yellow); color: var(--lego-black); transform: scale(1.15); box-shadow: 0 0 20px var(--glow-yellow); }
+        .carousel-dots { position: absolute; bottom: 25px; left: 50%; transform: translateX(-50%); display: flex; gap: 10px; z-index: 10; }
+        .carousel-dot { width: 14px; height: 14px; border-radius: 50%; background: rgba(255,255,255,0.4); cursor: pointer; transition: all 0.3s; }
+        .carousel-dot.active { background: var(--lego-yellow); transform: scale(1.4); box-shadow: 0 0 15px var(--glow-yellow); }
+
+        /* POLAROID COLLAGE */
+        .collage-section { position: relative; min-height: 800px; margin: 60px 0; perspective: 2000px; }
+        .polaroid { position: absolute; background: linear-gradient(145deg, #fff, #f0f0f0); padding: 12px 12px 50px; box-shadow: 0 15px 50px rgba(0,0,0,0.5); cursor: pointer; transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94); transform-style: preserve-3d; border-radius: 4px; }
+        .polaroid:hover { z-index: 100 !important; transform: scale(1.5) rotate(0deg) translateZ(100px) !important; box-shadow: 0 40px 80px rgba(0,0,0,0.6), 0 0 60px var(--glow-yellow); }
+        .polaroid img { width: 100%; height: auto; display: block; border-radius: 2px; }
+        .polaroid-caption { font-family: 'Bangers', cursive; font-size: 1rem; color: var(--lego-black); text-align: center; margin-top: 12px; letter-spacing: 1px; }
+        .polaroid:nth-child(1) { top: 0; left: 2%; transform: rotate(-12deg); width: 200px; z-index: 1; }
+        .polaroid:nth-child(2) { top: 3%; left: 26%; transform: rotate(8deg); width: 180px; z-index: 2; }
+        .polaroid:nth-child(3) { top: 0; left: 50%; transform: rotate(-5deg); width: 210px; z-index: 3; }
+        .polaroid:nth-child(4) { top: 5%; right: 2%; transform: rotate(10deg); width: 190px; z-index: 4; }
+        .polaroid:nth-child(5) { top: 40%; left: 5%; transform: rotate(6deg); width: 195px; z-index: 5; }
+        .polaroid:nth-child(6) { top: 42%; left: 32%; transform: rotate(-8deg); width: 220px; z-index: 7; }
+        .polaroid:nth-child(7) { top: 38%; right: 5%; transform: rotate(12deg); width: 185px; z-index: 6; }
+        .polaroid:nth-child(8) { bottom: 2%; left: 3%; transform: rotate(-6deg); width: 200px; z-index: 8; }
+        .polaroid:nth-child(9) { bottom: 0; left: 28%; transform: rotate(4deg); width: 210px; z-index: 9; }
+        .polaroid:nth-child(10) { bottom: 3%; right: 3%; transform: rotate(-10deg); width: 195px; z-index: 10; }
+
+        /* GALLERY */
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; padding: 20px 0; }
+        .gallery-item { position: relative; border-radius: 20px; overflow: hidden; aspect-ratio: 4/3; cursor: pointer; transition: all 0.5s; border: 4px solid transparent; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+        .gallery-item:hover { transform: scale(1.08) rotate(2deg); box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6), 0 0 40px var(--glow-yellow); border-color: var(--lego-yellow); z-index: 10; }
+        .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
+        .gallery-item:hover img { transform: scale(1.15); }
+
+        /* FLIP CARDS */
+        .thankyou-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px; padding: 20px 0; }
+        .flip-card { perspective: 1000px; height: 380px; }
+        .flip-card-inner { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94); transform-style: preserve-3d; }
+        .flip-card:hover .flip-card-inner { transform: rotateY(180deg); }
+        .flip-card-front, .flip-card-back { position: absolute; width: 100%; height: 100%; -webkit-backface-visibility: hidden; backface-visibility: hidden; border-radius: 24px; padding: 30px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .flip-card-front { background: linear-gradient(145deg, rgba(255,255,255,0.12), rgba(255,255,255,0.04)); border: 4px solid; }
+        .flip-card-back { background: linear-gradient(145deg, var(--lego-yellow), #e6c200); color: var(--lego-black); transform: rotateY(180deg); box-shadow: 0 20px 50px rgba(0,0,0,0.4); }
+        .flip-card:nth-child(6n+1) .flip-card-front { border-color: var(--lego-red); box-shadow: 0 0 30px var(--glow-red); }
+        .flip-card:nth-child(6n+2) .flip-card-front { border-color: var(--lego-yellow); box-shadow: 0 0 30px var(--glow-yellow); }
+        .flip-card:nth-child(6n+3) .flip-card-front { border-color: var(--lego-blue); box-shadow: 0 0 30px var(--glow-blue); }
+        .flip-card:nth-child(6n+4) .flip-card-front { border-color: var(--lego-green); box-shadow: 0 0 30px var(--glow-green); }
+        .flip-card:nth-child(6n+5) .flip-card-front { border-color: var(--lego-orange); box-shadow: 0 0 30px var(--glow-orange); }
+        .flip-card:nth-child(6n+6) .flip-card-front { border-color: var(--lego-purple); box-shadow: 0 0 30px var(--glow-purple); }
+        .flip-avatar { width: 90px; height: 90px; border-radius: 50%; background: linear-gradient(145deg, var(--lego-yellow), var(--lego-orange)); display: flex; align-items: center; justify-content: center; font-size: 3rem; margin-bottom: 18px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4); animation: avatarPulse 3s infinite; }
+        @keyframes avatarPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.08); } }
+        .flip-name { font-family: 'Bangers', cursive; font-size: 1.8rem; letter-spacing: 2px; margin-bottom: 12px; }
+        .flip-card:nth-child(6n+1) .flip-name { color: var(--lego-red); text-shadow: 0 0 20px var(--glow-red); }
+        .flip-card:nth-child(6n+2) .flip-name { color: var(--lego-yellow); text-shadow: 0 0 20px var(--glow-yellow); }
+        .flip-card:nth-child(6n+3) .flip-name { color: var(--lego-blue); text-shadow: 0 0 20px var(--glow-blue); }
+        .flip-card:nth-child(6n+4) .flip-name { color: var(--lego-green); text-shadow: 0 0 20px var(--glow-green); }
+        .flip-card:nth-child(6n+5) .flip-name { color: var(--lego-orange); text-shadow: 0 0 20px var(--glow-orange); }
+        .flip-card:nth-child(6n+6) .flip-name { color: var(--lego-purple); text-shadow: 0 0 20px var(--glow-purple); }
+        .flip-teaser { font-size: 1rem; color: rgba(255, 255, 255, 0.85); }
+        .flip-hint { font-size: 0.8rem; color: rgba(255,255,255,0.5); margin-top: auto; }
+        .flip-message { font-size: 1.1rem; font-weight: 600; line-height: 1.7; }
+
+        /* BLOOPERS */
+        .blooper-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; }
+        .blooper-card { background: linear-gradient(145deg, rgba(255,255,255,0.1), rgba(255,255,255,0.03)); border-radius: 20px; overflow: hidden; border: 4px solid var(--lego-orange); box-shadow: 0 0 30px var(--glow-orange); transition: all 0.5s; position: relative; animation: wobble 4s ease-in-out infinite; }
+        .blooper-card:nth-child(2) { animation-delay: 0.5s; }
+        .blooper-card:nth-child(3) { animation-delay: 1s; }
+        .blooper-card:nth-child(4) { animation-delay: 1.5s; }
+        .blooper-card:nth-child(5) { animation-delay: 2s; }
+        .blooper-card:nth-child(6) { animation-delay: 2.5s; }
+        @keyframes wobble { 0%, 100% { transform: rotate(-2deg); } 50% { transform: rotate(2deg); } }
+        .blooper-card:hover { animation: none; transform: scale(1.1) rotate(0deg); box-shadow: 0 25px 60px var(--glow-orange); }
+        .blooper-card img { width: 100%; aspect-ratio: 1; object-fit: cover; }
+        .blooper-caption { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(0, 0, 0, 0.95)); padding: 50px 20px 20px; font-family: 'Bangers', cursive; font-size: 1.4rem; color: var(--lego-yellow); text-align: center; }
+
+        /* VIDEOS */
+        .video-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px; padding: 20px 0; }
+        .video-card { background: linear-gradient(145deg, rgba(255,255,255,0.1), rgba(255,255,255,0.03)); border-radius: 20px; overflow: hidden; border: 3px solid rgba(255, 255, 255, 0.15); transition: all 0.5s; }
+        .video-card:hover { border-color: var(--lego-cyan); box-shadow: 0 15px 50px var(--glow-cyan); transform: translateY(-10px) scale(1.02); }
+        .video-wrapper { position: relative; aspect-ratio: 16/9; background: var(--lego-black); }
+        .video-wrapper iframe { width: 100%; height: 100%; border: none; }
+        .video-info { padding: 18px; }
+        .video-title { font-weight: 600; font-size: 1rem; color: var(--lego-white); margin-bottom: 6px; }
+        .video-meta { font-size: 0.85rem; color: rgba(255, 255, 255, 0.5); }
+
+        /* LIGHTBOX */
+        .lightbox { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.97); z-index: 10000; display: none; justify-content: center; align-items: center; padding: 20px; backdrop-filter: blur(10px); }
+        .lightbox.active { display: flex; animation: fadeIn 0.4s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .lightbox-content { max-width: 90vw; max-height: 90vh; position: relative; }
+        .lightbox-content img { max-width: 100%; max-height: 85vh; border-radius: 16px; box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7), 0 0 60px var(--glow-yellow); animation: zoomIn 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+        @keyframes zoomIn { from { transform: scale(0.7) rotate(-5deg); opacity: 0; } to { transform: scale(1) rotate(0deg); opacity: 1; } }
+        .lightbox-close { position: absolute; top: -60px; right: 0; font-size: 3rem; color: var(--lego-white); cursor: pointer; transition: all 0.4s; }
+        .lightbox-close:hover { color: var(--lego-red); transform: rotate(180deg) scale(1.2); }
+        .lightbox-nav { position: absolute; top: 50%; transform: translateY(-50%); font-size: 4rem; color: white; cursor: pointer; padding: 20px; transition: all 0.4s; }
+        .lightbox-nav:hover { color: var(--lego-yellow); transform: translateY(-50%) scale(1.3); }
+        .lightbox-prev { left: -100px; }
+        .lightbox-next { right: -100px; }
+
+        /* CONFETTI */
+        .confetti-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9999; overflow: hidden; }
+        .confetti { position: absolute; animation: confettiFall 4s ease-out forwards; }
+        @keyframes confettiFall { 0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; } 100% { transform: translateY(100vh) rotate(1080deg); opacity: 0; } }
+
+        /* FOOTER */
+        .footer { text-align: center; padding: 60px 20px; background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.6)); margin-top: 80px; border-top: 4px solid; border-image: linear-gradient(90deg, var(--lego-red), var(--lego-yellow), var(--lego-green), var(--lego-blue), var(--lego-purple)) 1; }
+        .footer-text { font-family: 'Bangers', cursive; font-size: 2rem; letter-spacing: 3px; margin-bottom: 25px; animation: footerGlow 2s infinite alternate; }
+        @keyframes footerGlow { 0% { text-shadow: 3px 3px 0 var(--lego-red), 0 0 20px var(--glow-yellow); } 100% { text-shadow: 3px 3px 0 var(--lego-blue), 0 0 40px var(--glow-yellow); } }
+        .footer-bricks { display: flex; justify-content: center; gap: 15px; }
+        .footer-bricks span { width: 40px; height: 25px; border-radius: 5px; display: inline-block; animation: brickPop 1.5s ease-in-out infinite; }
+        .footer-bricks span:nth-child(1) { background: var(--lego-red); animation-delay: 0s; }
+        .footer-bricks span:nth-child(2) { background: var(--lego-yellow); animation-delay: 0.15s; }
+        .footer-bricks span:nth-child(3) { background: var(--lego-blue); animation-delay: 0.3s; }
+        .footer-bricks span:nth-child(4) { background: var(--lego-green); animation-delay: 0.45s; }
+        .footer-bricks span:nth-child(5) { background: var(--lego-orange); animation-delay: 0.6s; }
+        .footer-bricks span:nth-child(6) { background: var(--lego-purple); animation-delay: 0.75s; }
+        @keyframes brickPop { 0%, 100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-20px) scale(1.1); } }
+
+        /* RESPONSIVE */
+        @media (max-width: 1000px) { .collage-section { min-height: auto; display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; } .polaroid { position: relative !important; top: auto !important; left: auto !important; right: auto !important; bottom: auto !important; transform: rotate(0deg) !important; width: 200px !important; } }
+        @media (max-width: 768px) { .nav-buttons { width: 100%; justify-content: center; } .nav-btn { padding: 10px 14px; font-size: 0.8rem; } .section { padding: 100px 15px 30px; } .carousel-slide img { height: 300px; } .lightbox-nav { display: none; } .flip-card { height: 350px; } }
+        @media (max-width: 480px) { .nav-logo span { display: none; } .login-box { padding: 30px 20px; } .stat-brick { min-width: 130px; padding: 20px; } .hero-title { text-shadow: 4px 4px 0 var(--lego-red), 8px 8px 0 var(--lego-blue); } }
+    </style>
+</head>
+<body>
+    <div class="floating-bricks"><div class="brick"></div><div class="brick"></div><div class="brick"></div><div class="brick"></div><div class="brick"></div><div class="brick"></div><div class="brick"></div><div class="brick"></div><div class="brick"></div><div class="brick"></div><div class="brick"></div><div class="brick"></div><div class="brick"></div><div class="brick"></div><div class="brick"></div></div>
+    <div class="sparkles" id="sparkles"></div>
+    <div id="login-screen"><div class="login-container"><h1 class="mega-title">🧱 SYLAS' PARTY! 🧱</h1><p class="login-subtitle">>>> PRESS START TO ENTER <<<</p><div class="login-box"><span class="lego-man">👷</span><form id="login-form"><div class="input-wrapper"><label>🎮 MASTER BUILDER NAME</label><input type="text" id="username" placeholder="Enter the secret word..." autocomplete="off" required></div><div class="input-wrapper"><label>🔐 SECRET CODE</label><input type="password" id="password" placeholder="Enter the password..." autocomplete="off" required></div><button type="submit" class="login-btn">🚀 LET'S GO! 🚀</button></form><div id="error-msg" class="error-message">❌ WRONG CODE! Try again!</div><p class="hint">💡 Hint: What goes with <strong>Lego</strong>? (Think breakfast!)</p></div></div></div>
+    <div id="main-app"><nav class="game-nav"><div class="nav-inner"><div class="nav-logo"><span>🧱</span> SYLAS TURNS 8!</div><div class="nav-buttons"><button class="nav-btn active" data-section="home">🏠 Home</button><button class="nav-btn" data-section="photos">📸 Photos</button><button class="nav-btn" data-section="videos">🎬 Videos</button><button class="nav-btn" data-section="bloopers">😂 Bloopers</button><button class="nav-btn" data-section="thankyou">💝 Thanks</button></div></div></nav>
+        <section id="home" class="section active"><div class="hero-content"><span class="hero-badge">🎉 FEBRUARY 1, 2026 🎉</span><h1 class="hero-title"><span class="hero-name">SYLAS</span><br>LEVELS UP!</h1><div class="hero-age">⭐ NOW LEVEL 8 ⭐</div><p class="hero-message">The ultimate Master Builder has officially leveled up! Thanks to all the awesome friends and family who came to celebrate this EPIC LEGOLAND birthday bash! 🧱🎂🎁</p><div class="hero-stats"><div class="stat-brick"><div class="stat-number">8</div><div class="stat-label">Years Old</div></div><div class="stat-brick"><div class="stat-number">∞</div><div class="stat-label">LEGOs Built</div></div><div class="stat-brick"><div class="stat-number" id="video-count">58</div><div class="stat-label">Party Videos</div></div><div class="stat-brick"><div class="stat-number">💯</div><div class="stat-label">Awesomeness</div></div></div></div><div class="carousel-container"><div class="carousel-track" id="carousel-track"></div><div class="carousel-controls"><button class="carousel-btn" id="prevSlide">◀</button><button class="carousel-btn" id="nextSlide">▶</button></div><div class="carousel-dots" id="carousel-dots"></div></div><h2 class="section-title" style="margin-top:60px;">📸 PARTY SNAPSHOTS 📸</h2><div class="collage-section" id="polaroid-collage"></div></section>
+        <section id="photos" class="section"><div class="section-header"><h2 class="section-title">📸 PHOTO GALLERY 📸</h2><p class="section-subtitle">Click any photo to see it MEGA SIZE!</p></div><div class="gallery-grid" id="photo-gallery"></div></section>
+        <section id="videos" class="section"><div class="section-header"><h2 class="section-title">🎬 PARTY VIDEOS 🎬</h2><p class="section-subtitle">All 58 epic moments captured on camera!</p></div><div class="video-grid" id="video-gallery"></div></section>
+        <section id="bloopers" class="section"><div class="section-header"><h2 class="section-title">😂 BLOOPER REEL 😂</h2><p class="section-subtitle">Even Master Builders have outtakes! 🤣</p></div><div class="blooper-grid" id="blooper-gallery"></div></section>
+        <section id="thankyou" class="section"><div class="section-header"><h2 class="section-title">💝 THANK YOU! 💝</h2><p class="section-subtitle">Hover over each card to see Sylas' special message! 🎁</p></div><div class="thankyou-grid"><div class="flip-card"><div class="flip-card-inner"><div class="flip-card-front"><div class="flip-avatar">🦸</div><h3 class="flip-name">CALVIN & EVA</h3><p class="flip-teaser">Dynamic duo alert!</p><span class="flip-hint">↻ Hover to flip!</span></div><div class="flip-card-back"><p class="flip-message">Calvin & Eva - you two are AWESOME! Thanks for coming to my LEGO party! You're the best building buddies ever! 🧱⭐</p></div></div></div><div class="flip-card"><div class="flip-card-inner"><div class="flip-card-front"><div class="flip-avatar">⚡</div><h3 class="flip-name">CHARLIE & EEVEE</h3><p class="flip-teaser">Party superstars!</p><span class="flip-hint">↻ Hover to flip!</span></div><div class="flip-card-back"><p class="flip-message">Charlie & Eevee - you guys are SO cool! The party was epic because you were there! 🎉🔥</p></div></div></div><div class="flip-card"><div class="flip-card-inner"><div class="flip-card-front"><div class="flip-avatar">🚀</div><h3 class="flip-name">DYLAN & HUDSON</h3><p class="flip-teaser">Adventure squad!</p><span class="flip-hint">↻ Hover to flip!</span></div><div class="flip-card-back"><p class="flip-message">Dylan & Hudson - thanks for being awesome friends! My birthday was LEGENDARY because of you! 🏗️💪</p></div></div></div><div class="flip-card"><div class="flip-card-inner"><div class="flip-card-front"><div class="flip-avatar">🌟</div><h3 class="flip-name">GIOVANNI & SIENNA</h3><p class="flip-teaser">Master Builders!</p><span class="flip-hint">↻ Hover to flip!</span></div><div class="flip-card-back"><p class="flip-message">Giovanni & Sienna - you two are amazing! You're true Master Builders! 🧱🎊</p></div></div></div><div class="flip-card"><div class="flip-card-inner"><div class="flip-card-front"><div class="flip-avatar">🎯</div><h3 class="flip-name">HARLEY</h3><p class="flip-teaser">Total legend!</p><span class="flip-hint">↻ Hover to flip!</span></div><div class="flip-card-back"><p class="flip-message">Harley - dude, you're AWESOME! You're a true friend! 🏆😎</p></div></div></div><div class="flip-card"><div class="flip-card-inner"><div class="flip-card-front"><div class="flip-avatar">🎮</div><h3 class="flip-name">HENRY</h3><p class="flip-teaser">Epic friend!</p><span class="flip-hint">↻ Hover to flip!</span></div><div class="flip-card-back"><p class="flip-message">Henry - thanks for being such a great friend! You're one of the coolest! 🎉👊</p></div></div></div><div class="flip-card"><div class="flip-card-inner"><div class="flip-card-front"><div class="flip-avatar">👑</div><h3 class="flip-name">KIRIAN, HELAYNA & LEVI</h3><p class="flip-teaser">The triple threat!</p><span class="flip-hint">↻ Hover to flip!</span></div><div class="flip-card-back"><p class="flip-message">Kirian, Helayna & Levi - THREE times the awesome! I had so much fun with all of you! 🌈🎂💯</p></div></div></div><div class="flip-card"><div class="flip-card-inner"><div class="flip-card-front"><div class="flip-avatar">💥</div><h3 class="flip-name">WILL</h3><p class="flip-teaser">The real MVP!</p><span class="flip-hint">↻ Hover to flip!</span></div><div class="flip-card-back"><p class="flip-message">Will - you're a LEGEND! Can't wait for our next adventure! 🚀⭐</p></div></div></div><div class="flip-card"><div class="flip-card-inner"><div class="flip-card-front"><div class="flip-avatar">🧱</div><h3 class="flip-name">LEGO GIFTS</h3><p class="flip-teaser">Best presents EVER!</p><span class="flip-hint">↻ Hover to flip!</span></div><div class="flip-card-back"><p class="flip-message">All those AMAZING Lego sets - Ninjago, Super Mario, Minecraft, Sonic! LEGENDARY! 🎮🔥</p></div></div></div><div class="flip-card"><div class="flip-card-inner"><div class="flip-card-front"><div class="flip-avatar">👨‍👩‍👦</div><h3 class="flip-name">MOM & DAD</h3><p class="flip-teaser">The BEST parents!</p><span class="flip-hint">↻ Hover to flip!</span></div><div class="flip-card-back"><p class="flip-message">Thanks for the most EPIC party ever! You're the best parents in the UNIVERSE! ❤️🌟</p></div></div></div><div class="flip-card"><div class="flip-card-inner"><div class="flip-card-front"><div class="flip-avatar">💙</div><h3 class="flip-name">ALL FAMILIES</h3><p class="flip-teaser">YOU'RE ALL AMAZING!</p><span class="flip-hint">↻ Hover to flip!</span></div><div class="flip-card-back"><p class="flip-message">To all the parents - THANK YOU! See everyone for LEVEL 9! 🏆🎊💯</p></div></div></div><div class="flip-card"><div class="flip-card-inner"><div class="flip-card-front"><div class="flip-avatar">🎂</div><h3 class="flip-name">FROM SYLAS</h3><p class="flip-teaser">With love! ❤️</p><span class="flip-hint">↻ Hover to flip!</span></div><div class="flip-card-back"><p class="flip-message">This was the GREATEST birthday EVER! LEVEL 8 is going to be AWESOME! 🎉🧱❤️</p></div></div></div></div></section>
+        <footer class="footer"><p class="footer-text">🧱 SYLAS' 8TH BIRTHDAY - BUILT WITH LOVE! 🧱</p><div class="footer-bricks"><span></span><span></span><span></span><span></span><span></span><span></span></div></footer>
+    </div>
+    <div class="lightbox" id="lightbox"><div class="lightbox-content"><span class="lightbox-close" id="lightbox-close">✕</span><span class="lightbox-nav lightbox-prev" id="lightbox-prev">◀</span><img id="lightbox-img" src="" alt="Photo"><span class="lightbox-nav lightbox-next" id="lightbox-next">▶</span></div></div>
+    <div class="confetti-container" id="confetti"></div>
+<script>
+var photos=[{id:'1now95_rUc0Lm4y1Qcr0FafhHLhL3Zu4x',caption:'🔨 Building Time!'},{id:'1maQNd95mhD8AD28uVE16p2pD6LG8jBhf',caption:'🤖 Character Meet!'},{id:'1kVjgxD8mOSv4Isk4a4g3AhLVn8D7VIEi',caption:'👫 Squad Goals!'},{id:'1AJ2lFwIRfZRJ-N15pwGSV6spqwW5qsFo',caption:'🎉 Party Mode!'},{id:'1jBuwdL-rCB6qgbMfS9ey3Nfsm5xdPzv0',caption:'⭐ VIP!'},{id:'1mFU2UdfCFMh--Pk3f845qFmCqHRluhJ1',caption:'🎈 Best Day!'},{id:'1kYEsArLBEA0iLLUlo6NVSdWB2I0MTo3v',caption:'🧱 Master Builder!'},{id:'1aSq9J_s0bj10l0yhlpSHYbINjt4nTjQB',caption:'🎊 Celebration!'},{id:'10eVUXfFOLISzuFEwwE70oVgrfTb4N6-p',caption:'😎 Cool Crew!'},{id:'1mn9I0YzGqf_VkmPVR9aM0GgHceVMzEjW',caption:'🎂 Party Time!'},{id:'1zsB4WRK5pv7dhQqLDYWB6oCKXRRyZ7O1',caption:'🌟 Awesome!'},{id:'19x8JXltWd1OyP4GBzzpHvFe-ilvLGucg',caption:'🎁 Presents!'},{id:'142HVp-LPCDwSL3BHd_q1m_P4mXZIVMUC',caption:'🎮 Game On!'},{id:'14m89IJ5BzlEEwpYg76ApJE-EbP5lgHd_',caption:'👊 Team!'},{id:'1SBPqMzFlLd_ZmHyZ_iC3fuHDxzscmwVs',caption:'🏆 Champions!'},{id:'10e8lQHMEIeaDIRRRHObQoIfGCd9hiw9s',caption:'📸 Memories!'},{id:'1tGTqFtG6UpSxH9vZ2EwnTdbrjuqseAd1',caption:'🎪 Fun Times!'},{id:'15X346y2br3BaIPT-WbpGPGT-Bw3CWx6r',caption:'☀️ Birthday Boy!'},{id:'1qnlb9TBIcTtbXnYdnN09zZ3vMSuzMqDN',caption:'🧩 LEGO Land!'}];
+var videos=[{id:'1IvyOchLIAbyX7X3U-Z_TBGkqr8UQQ_4b',title:'Clip 1'},{id:'1TDuZGiHv4uYIEwh96Egy-iNe8VqTaXwL',title:'Clip 2'},{id:'1fyvLvmngL7mOFuo7cTp3do2OAujePfDz',title:'Clip 3'},{id:'1L0X8QLPnMcb_1NwAWCbZNolE7dRBIOIF',title:'Clip 4'},{id:'1lm2X6nx9YG4D707DgjAC79RFxlv3shSd',title:'Clip 5'},{id:'1LdbWG9l5e3gSTV-3CVo94NFvW6REvEVX',title:'Clip 6'},{id:'1aLlisZOpcRqN_K6ipsfzUeXrJrNZVJyA',title:'Clip 7'},{id:'1qFrOReZ2Y6XPz_c1UjUdGGI1mIN7_faC',title:'Clip 8'},{id:'1QR_O630M-scuhEiBvvgcisKA1tt1cCTC',title:'Clip 9'},{id:'1Ymp0rD63hDKUW_5KPM_7-meC8biQMAIz',title:'Clip 10'},{id:'191Dy-l2t2_dII6TetIF2uG5bW_Df8Q-1',title:'Clip 11'},{id:'1yjpQ-ayPOMXLn6ljn1XPyWoaZ75bf8wG',title:'Movie'},{id:'1b7CTIN4c63C_2JAFYTeZfGSx8Lx9NpBW',title:'Clip 12'},{id:'1WsQsvCHEdokdlVXH92Fd5xftFitGPITb',title:'Clip 13'},{id:'1AUvz59gh9JpumA99MJdUGmyYTF39k7y4',title:'Clip 14'},{id:'1rZddw40aBfd9UlIAG3P9xFM95-2vv4pA',title:'Clip 15'},{id:'14G6qe8ivhfwpzs3gPqBFK08U43V8AE8F',title:'Clip 16'},{id:'11btW3Q9sIjH8DIBxbHSowhmNhMombHTW',title:'Clip 17'},{id:'1CHyF7XwQLXKS3igU5qqBQUpj80mA2g3c',title:'Clip 18'},{id:'1FL8hZFPf_fo_YtO5oqdKBLSm4n_J88j7',title:'Clip 19'},{id:'1LPgPBgrUeblwx9s-omQZh5GhVeakjL25',title:'Clip 20'},{id:'1J_nfUcPofOAS-mFMC1Pk7UfF1oql9K2K',title:'Clip 21'},{id:'11Am7zshL9_ChDNqzTzrzjhYzmHbL8wTU',title:'Clip 22'},{id:'1Yn2qB9QKlQPhRDKChfR4gg44oZypBU-W',title:'Clip 23'},{id:'1r-qwcDLQujgELLjPVW0RRO8Mie0RZ1Zm',title:'Clip 24'},{id:'1Jeat0AC3chbSQ5QOHCbym_YidA_h7mT4',title:'Clip 25'},{id:'12elnESaXBnj1YO2ai65NhQ7CeJ8dkpnl',title:'Clip 26'},{id:'1iOmggW7IvcHZ19hT0GQVEIqVpHHPjnYJ',title:'Clip 27'},{id:'1G4hbosbgPdPJq-Iz8Yh7XUTIABzyoSXu',title:'Clip 28'},{id:'1ZvOF_7Sc09PPqgaQDYZhYqQ5kBsOUPZv',title:'Clip 29'},{id:'1eturFCzvK9BaHn55_EsbBLWUacI2pus6',title:'Clip 30'},{id:'1yiaWpD8tdZhu6N0C4nk2Ga5oJY7HDcFV',title:'Clip 31'},{id:'1DgDI_a1ouyQ1d-Gw13vfGQIp7wtjKKTi',title:'Clip 32'},{id:'12n-Yh6g3m5vBOrysoq0QDLiALQ4yObrM',title:'Clip 33'},{id:'1hOm_3AYvWaUhcA8C4-YMypxZZ_QCH3RK',title:'Clip 34'},{id:'1Fcfh14Ntg9Wy9zq5YfHryEznkLRh-xpu',title:'Clip 35'},{id:'1LRZ6Jbl3sorgutsNYehuAN52tNNqIItU',title:'Clip 36'},{id:'1fHyz6pkvEdyHp2thsILYFeu6MSCYD2QB',title:'Clip 37'},{id:'17CNEXMK431zQ-T0tWGPhAhI50GTs3Bmq',title:'Clip 38'},{id:'1SSQwv8PCOfSxFpqqJ3j4GwKfJM_Wy8MG',title:'Clip 39'},{id:'106rrHDp0EdKxDJQ4HgPJB6w1Je73BtyJ',title:'Clip 40'},{id:'1PhYc9PLnU9HpqGJpPvEihnze_y4stSUO',title:'Clip 41'},{id:'1awdkXGlXymmHL0J-J0jh5Jn5HPwypAZc',title:'Clip 42'},{id:'1lJAABxQXu135kH_0osCmfvxgvzIqcqR5',title:'Clip 43'},{id:'13DzwGlyZ65WnCxb-U_evd2s9Ovr75Tol',title:'Clip 44'},{id:'15uuCPkQGA7xFALNQkgjomxsx478f0MTa',title:'Clip 45'},{id:'1TADL5apEL3kQLjDPd9oLhbLVSnRH9iYN',title:'Clip 46'},{id:'1mt7nmTGAUalRcTPzh3IMjEsKNRvOGKbx',title:'Clip 47'},{id:'1T69E5S9U7WiGWr5dxaxaww3uErPLMa6B',title:'Clip 48'},{id:'1svjph059tXsFnDO_k25KHU7LPrJGacCH',title:'Clip 49'},{id:'1AvnWUeh8eg7DRc6OaZdSgf13FXQXV6FW',title:'Clip 50'},{id:'1bmYuc_a4Ey8M5fBhepkUoJlfRi3ldZ5o',title:'Clip 51'},{id:'1oClFSbtQ9MPUbioYeNEtv9Ux4AmVwITl',title:'Clip 52'},{id:'1mMsmrLiOT30CO56HmNvWpfRG-Ix-2LQR',title:'Clip 53'},{id:'14lLk4yaRVNpwPV0AdBhVLFUmHGdCzbEZ',title:'Clip 54'},{id:'1lD3yXYFEzxysirdxtEEDomej3GC50SQ-',title:'Clip 55'},{id:'1tgn44THjqv7orPXoeB-M84H7CU6OtIGd',title:'Clip 56'},{id:'1fXAsU6L3HnOVyiV_-RiP9T4fA7vw21Q3',title:'Clip 57'},{id:'1bjNKyyGQBiXoqw06CTo1Py6-IEMcsP69',title:'Clip 58'}];
+var blooperCaptions=['😮 Surprised!','🤪 Silly!','😎 Too Cool!','🙃 Goofy!','😆 LOL!','🤣 Ha!'];
+function imgUrl(id,sz){return'https://drive.google.com/thumbnail?id='+id+'&sz=w'+(sz||600);}
+var currentIdx=0,carouselIdx=0;
+function createSparkles(){var c=document.getElementById('sparkles');for(var i=0;i<50;i++){var s=document.createElement('div');s.className='sparkle';s.style.left=Math.random()*100+'vw';s.style.top=Math.random()*100+'vh';s.style.animationDelay=Math.random()*3+'s';s.style.animationDuration=(Math.random()*2+2)+'s';c.appendChild(s);}}
+createSparkles();
+document.getElementById('login-form').onsubmit=function(e){e.preventDefault();var u=document.getElementById('username').value,p=document.getElementById('password').value;if(u==='Lego'&&p==='MyEggo'){document.getElementById('login-screen').classList.add('hidden');document.getElementById('main-app').classList.add('active');launchConfetti();loadAll();}else{var err=document.getElementById('error-msg');err.style.display='block';err.style.animation='none';setTimeout(function(){err.style.animation='shake 0.5s';},10);}};
+function launchConfetti(){var c=document.getElementById('confetti'),colors=['#E3000B','#FFD500','#006DB7','#00AF4D','#FF6D00','#8B008B','#00BCD4'],shapes=['◆','●','■','★','▲','♦','♥'];for(var i=0;i<200;i++){(function(i){setTimeout(function(){var cf=document.createElement('div');cf.className='confetti';cf.textContent=shapes[Math.floor(Math.random()*shapes.length)];cf.style.left=Math.random()*100+'vw';cf.style.color=colors[Math.floor(Math.random()*colors.length)];cf.style.fontSize=(Math.random()*20+10)+'px';cf.style.animationDuration=(Math.random()*2+3)+'s';c.appendChild(cf);setTimeout(function(){cf.remove();},5000);},i*15);})(i);}}
+function loadAll(){loadCarousel();loadPolaroids();loadGallery();loadBloopers();loadVideos();document.getElementById('video-count').textContent=videos.length;}
+function loadCarousel(){var t=document.getElementById('carousel-track'),d=document.getElementById('carousel-dots');photos.slice(0,10).forEach(function(p,i){var s=document.createElement('div');s.className='carousel-slide';s.innerHTML='<img src="'+imgUrl(p.id,1200)+'" alt="'+p.caption+'">';t.appendChild(s);var dot=document.createElement('div');dot.className='carousel-dot'+(i===0?' active':'');dot.onclick=function(){goSlide(i);};d.appendChild(dot);});document.getElementById('prevSlide').onclick=function(){goSlide(carouselIdx-1);};document.getElementById('nextSlide').onclick=function(){goSlide(carouselIdx+1);};setInterval(function(){if(document.getElementById('home').classList.contains('active'))goSlide(carouselIdx+1);},5000);}
+function goSlide(i){var slides=document.querySelectorAll('.carousel-slide');if(!slides.length)return;carouselIdx=(i+slides.length)%slides.length;document.getElementById('carousel-track').style.transform='translateX(-'+carouselIdx*100+'%)';document.querySelectorAll('.carousel-dot').forEach(function(d,j){d.classList.toggle('active',j===carouselIdx);});}
+function loadPolaroids(){var c=document.getElementById('polaroid-collage');photos.slice(0,10).forEach(function(p){var pol=document.createElement('div');pol.className='polaroid';pol.innerHTML='<img src="'+imgUrl(p.id,400)+'" alt="'+p.caption+'"><div class="polaroid-caption">'+p.caption+'</div>';pol.onclick=function(){openLightbox(imgUrl(p.id,1200));};c.appendChild(pol);});}
+function loadGallery(){var g=document.getElementById('photo-gallery');photos.forEach(function(p,i){var item=document.createElement('div');item.className='gallery-item';item.innerHTML='<img src="'+imgUrl(p.id,600)+'" alt="'+p.caption+'">';item.onclick=function(){currentIdx=i;openLightbox(imgUrl(p.id,1200));};g.appendChild(item);});}
+function loadBloopers(){var g=document.getElementById('blooper-gallery');photos.slice(5,11).forEach(function(p,i){var card=document.createElement('div');card.className='blooper-card';card.innerHTML='<img src="'+imgUrl(p.id,500)+'" alt="Blooper"><div class="blooper-caption">'+(blooperCaptions[i]||'😂 Oops!')+'</div>';g.appendChild(card);});}
+function loadVideos(){var g=document.getElementById('video-gallery');videos.forEach(function(v,i){var card=document.createElement('div');card.className='video-card';card.innerHTML='<div class="video-wrapper"><iframe src="https://drive.google.com/file/d/'+v.id+'/preview" allow="autoplay; encrypted-media" allowfullscreen loading="lazy"></iframe></div><div class="video-info"><div class="video-title">🎬 '+v.title+'</div><div class="video-meta">Clip #'+(i+1)+' of '+videos.length+'</div></div>';g.appendChild(card);});}
+document.querySelectorAll('.nav-btn').forEach(function(btn){btn.onclick=function(){var t=this.getAttribute('data-section');document.querySelectorAll('.nav-btn').forEach(function(b){b.classList.remove('active');});this.classList.add('active');document.querySelectorAll('.section').forEach(function(s){s.classList.remove('active');});document.getElementById(t).classList.add('active');window.scrollTo({top:0,behavior:'smooth'});};});
+var lightbox=document.getElementById('lightbox'),lbImg=document.getElementById('lightbox-img');
+function openLightbox(src){lbImg.src=src;lightbox.classList.add('active');}
+document.getElementById('lightbox-close').onclick=function(){lightbox.classList.remove('active');};
+lightbox.onclick=function(e){if(e.target===lightbox)lightbox.classList.remove('active');};
+document.getElementById('lightbox-prev').onclick=function(){currentIdx=(currentIdx-1+photos.length)%photos.length;lbImg.src=imgUrl(photos[currentIdx].id,1200);};
+document.getElementById('lightbox-next').onclick=function(){currentIdx=(currentIdx+1)%photos.length;lbImg.src=imgUrl(photos[currentIdx].id,1200);};
+document.onkeydown=function(e){if(lightbox.classList.contains('active')){if(e.key==='Escape')lightbox.classList.remove('active');if(e.key==='ArrowLeft')document.getElementById('lightbox-prev').click();if(e.key==='ArrowRight')document.getElementById('lightbox-next').click();}};
+</script>
+</body>
+</html>
